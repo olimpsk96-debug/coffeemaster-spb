@@ -33,33 +33,44 @@ function BrandCard({ brand }: { brand: typeof brands[0] }) {
   const logoUrl = `https://logo.clearbit.com/${brand.domain}`
 
   const inner = (
-    <div className="flex items-center gap-3 px-5 py-3.5 bg-white border border-[rgba(26,20,16,0.07)] rounded-2xl hover:border-[#E87722] hover:shadow-md transition-all duration-300 group cursor-pointer shrink-0 mx-2">
-      <div
-        className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden shrink-0"
-        style={{ backgroundColor: imgError ? brand.bg : 'transparent' }}
-      >
-        {!imgError ? (
-          <Image
-            src={logoUrl}
-            alt={brand.name}
-            width={40}
-            height={40}
-            className="object-contain w-9 h-9"
-            onError={() => setImgError(true)}
-            unoptimized
-          />
-        ) : (
-          <span
-            className="text-xl font-bold leading-none"
-            style={{ color: brand.color, fontFamily: 'var(--font-display)' }}
-          >
-            {brand.abbr}
-          </span>
-        )}
-      </div>
-      <span className="text-sm font-semibold text-[#4A4540] group-hover:text-[#E87722] transition-colors whitespace-nowrap">
+    <div className="group relative flex items-center justify-center px-6 py-4 mx-3 rounded-xl border border-transparent hover:border-[rgba(232,119,34,0.3)] hover:bg-[#FFF4EB] transition-all duration-300 cursor-pointer shrink-0">
+      {/* Tooltip */}
+      <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#1A1410] text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
         {brand.name}
-      </span>
+        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#1A1410]" />
+      </div>
+
+      <div className="flex items-center gap-3">
+        {/* Logo / fallback abbr */}
+        <div
+          className="w-[80px] h-[80px] flex items-center justify-center overflow-hidden shrink-0"
+          style={{ backgroundColor: imgError ? brand.bg : 'transparent' }}
+        >
+          {!imgError ? (
+            <Image
+              src={logoUrl}
+              alt={brand.name}
+              width={80}
+              height={80}
+              className="object-contain w-[72px] h-[72px] filter grayscale group-hover:grayscale-0 transition-all duration-[400ms] group-hover:scale-110"
+              onError={() => setImgError(true)}
+              unoptimized
+            />
+          ) : (
+            <span
+              className="text-3xl font-bold leading-none"
+              style={{ color: brand.color, fontFamily: 'var(--font-display)' }}
+            >
+              {brand.abbr}
+            </span>
+          )}
+        </div>
+
+        {/* Brand name label */}
+        <span className="text-sm font-semibold text-[#4A4540] group-hover:text-[#E87722] transition-colors whitespace-nowrap">
+          {brand.name}
+        </span>
+      </div>
     </div>
   )
 
@@ -72,13 +83,15 @@ function BrandCard({ brand }: { brand: typeof brands[0] }) {
 function MarqueeRow({ items, reverse = false }: { items: typeof brands; reverse?: boolean }) {
   return (
     <div
-      className="flex overflow-hidden"
+      className="flex overflow-hidden group/row"
       style={{
         maskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
         WebkitMaskImage: 'linear-gradient(to right, transparent, black 8%, black 92%, transparent)',
       }}
     >
-      <div className={reverse ? 'animate-marquee-reverse flex' : 'animate-marquee flex'}>
+      <div
+        className={`${reverse ? 'animate-marquee-reverse' : 'animate-marquee'} flex group-hover/row:[animation-play-state:paused]`}
+      >
         {[...items, ...items, ...items, ...items].map((brand, i) => (
           <BrandCard key={i} brand={brand} />
         ))}
@@ -94,6 +107,22 @@ export function BrandsMarquee() {
   return (
     <section ref={ref} className="py-16 bg-white overflow-hidden">
       <div className="container mb-10">
+        {/* Brand counter */}
+        <motion.div
+          initial="hidden"
+          animate={isInView ? 'visible' : 'hidden'}
+          variants={fadeUpVariants}
+          className="text-center mb-4"
+        >
+          <span
+            className="text-4xl font-bold text-[#1A1410]"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            {brands.length}
+          </span>
+          <span className="text-[#8B847C] ml-2">ведущих бренда</span>
+        </motion.div>
+
         <motion.p
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}

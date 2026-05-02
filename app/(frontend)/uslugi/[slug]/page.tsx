@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import {
-  ArrowLeft, CheckCircle2, Phone, MessageCircle, Clock, Shield,
+  Phone, MessageCircle, Clock, Shield,
   AlertTriangle, ChevronRight, Wrench, Star, ArrowRight,
 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { servicesData, allServices } from '@/lib/services-data'
 import { ServiceJsonLd, FAQJsonLd, BreadcrumbJsonLd } from '@/components/shared/JsonLd'
+import { FaqItem, BenefitCard, SatisfactionBar } from '@/components/sections/ServicePageClient'
 
 export function generateStaticParams() {
   return allServices.map((s) => ({ slug: s.slug }))
@@ -49,9 +50,13 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         { name: service.title, url },
       ]} />
 
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-[#FFF9F2] to-white py-14 lg:py-20 border-b border-[rgba(26,20,16,0.06)]">
-        <div className="container">
+      {/* Hero — gradient with decorative glow blobs */}
+      <section className="relative bg-gradient-to-br from-[#FFF9F2] to-[#FFF4EB] overflow-hidden py-14 lg:py-20 border-b border-[rgba(26,20,16,0.06)]">
+        {/* Decorative glow */}
+        <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-[#E87722]/08 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-64 h-64 rounded-full bg-[#C9A96E]/06 blur-3xl pointer-events-none" />
+
+        <div className="container relative">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-[#8B847C] mb-8">
             <Link href="/" className="hover:text-[#E87722] transition-colors">Главная</Link>
@@ -63,26 +68,37 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
             <div className="max-w-2xl">
-              <span className="section-label mb-5">{service.category}</span>
-              <h1 className="text-[#1A1410] mt-5 mb-5" style={{ fontFamily: 'var(--font-display)' }}>
+              {/* Badges row */}
+              <div className="flex flex-wrap items-center gap-2 mb-5">
+                <span className="section-label">{service.category}</span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E87722] text-white text-xs font-semibold uppercase tracking-wide">
+                  <Star size={11} className="fill-white" />
+                  Популярная услуга
+                </span>
+              </div>
+
+              <h1 className="text-[#1A1410] mb-5" style={{ fontFamily: 'var(--font-display)' }}>
                 {service.title}
                 <span className="block text-[#8B847C] font-normal text-lg mt-2">
                   Ремонт кофемашин в Санкт-Петербурге
                 </span>
               </h1>
-              <p className="text-[#4A4540] text-lg leading-relaxed mb-8">{service.description}</p>
+              <p className="text-[#4A4540] text-lg leading-relaxed mb-6">{service.description}</p>
+
+              {/* Satisfaction progress bar (client component) */}
+              <SatisfactionBar />
 
               {/* Stats row */}
               <div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-2 bg-white border border-[rgba(26,20,16,0.08)] rounded-xl px-4 py-2.5">
+                <div className="flex items-center gap-2 bg-white border border-[rgba(26,20,16,0.08)] rounded-xl px-4 py-2.5 shadow-sm">
                   <Clock size={16} className="text-[#E87722]" />
                   <span className="text-sm font-medium text-[#1A1410]">{service.duration}</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white border border-[rgba(26,20,16,0.08)] rounded-xl px-4 py-2.5">
+                <div className="flex items-center gap-2 bg-white border border-[rgba(26,20,16,0.08)] rounded-xl px-4 py-2.5 shadow-sm">
                   <Shield size={16} className="text-[#E87722]" />
                   <span className="text-sm font-medium text-[#1A1410]">Гарантия {service.warranty}</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white border border-[rgba(26,20,16,0.08)] rounded-xl px-4 py-2.5">
+                <div className="flex items-center gap-2 bg-white border border-[rgba(26,20,16,0.08)] rounded-xl px-4 py-2.5 shadow-sm">
                   <Star size={16} className="text-[#E87722] fill-[#E87722]" />
                   <span className="text-sm font-medium text-[#1A1410]">4.9 / 5 — 847 отзывов</span>
                 </div>
@@ -91,7 +107,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
             {/* Price card */}
             <div className="lg:w-72 shrink-0">
-              <div className="bg-white rounded-2xl p-7 border border-[rgba(26,20,16,0.08)] shadow-lg">
+              <div className="bg-white rounded-2xl p-7 border-2 border-[#E87722]/20 shadow-xl shadow-[#E87722]/05">
                 <p className="text-[#8B847C] text-sm mb-1">Стоимость от</p>
                 <p className="text-[#E87722] text-4xl font-bold tabular mb-1">
                   {service.priceFrom === 0 ? 'Бесплатно' : formatPrice(service.priceFrom)}
@@ -127,17 +143,14 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             {/* Left column */}
             <div className="lg:col-span-2 space-y-8">
 
-              {/* Benefits */}
+              {/* Benefits — animated hover cards */}
               <div className="bg-white rounded-2xl p-8 border border-[rgba(26,20,16,0.06)]">
                 <h2 className="text-[#1A1410] text-2xl mb-6 font-semibold" style={{ fontFamily: 'var(--font-display)' }}>
                   Почему выбирают нас
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {service.benefits.map((benefit) => (
-                    <div key={benefit} className="flex items-start gap-3 p-4 bg-[#FFF9F2] rounded-xl border border-[rgba(232,119,34,0.12)]">
-                      <CheckCircle2 size={18} className="text-[#E87722] mt-0.5 shrink-0" />
-                      <span className="text-[#1A1410] text-sm font-medium">{benefit}</span>
-                    </div>
+                  {service.benefits.map((benefit, index) => (
+                    <BenefitCard key={benefit} benefit={benefit} index={index} />
                   ))}
                 </div>
               </div>
@@ -179,42 +192,40 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 </ul>
               </div>
 
-              {/* FAQ */}
+              {/* FAQ — animated accordion */}
               <div>
                 <h2 className="text-[#1A1410] text-2xl mb-6 font-semibold" style={{ fontFamily: 'var(--font-display)' }}>
                   Вопросы и ответы
                 </h2>
                 <div className="space-y-3">
                   {service.faq.map((item) => (
-                    <details key={item.question} className="group bg-white rounded-2xl border border-[rgba(26,20,16,0.06)] overflow-hidden">
-                      <summary className="flex items-center justify-between gap-4 px-7 py-5 cursor-pointer list-none select-none hover:bg-[#FFF9F2] transition-colors">
-                        <span className="text-[#1A1410] font-semibold text-base">{item.question}</span>
-                        <span className="w-7 h-7 rounded-full border border-[rgba(26,20,16,0.12)] flex items-center justify-center shrink-0 group-open:bg-[#E87722] group-open:border-[#E87722] transition-colors">
-                          <ChevronRight size={14} className="text-[#4A4540] group-open:text-white group-open:rotate-90 transition-transform" />
-                        </span>
-                      </summary>
-                      <div className="px-7 pb-5">
-                        <div className="h-px bg-[rgba(26,20,16,0.06)] mb-4" />
-                        <p className="text-[#4A4540] leading-relaxed">{item.answer}</p>
-                      </div>
-                    </details>
+                    <FaqItem key={item.question} item={item} />
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* Sidebar */}
+            {/* Sidebar — sticky */}
             <div className="space-y-6">
 
               {/* CTA sticky card */}
-              <div className="bg-white rounded-2xl p-7 border border-[rgba(26,20,16,0.06)] shadow-sm sticky top-24">
+              <div className="bg-white rounded-2xl p-7 border-2 border-[#E87722]/20 shadow-lg lg:sticky lg:top-24 self-start">
                 <span className="section-label mb-4">Записаться</span>
                 <h3 className="text-[#1A1410] text-xl mt-4 mb-2 font-semibold" style={{ fontFamily: 'var(--font-display)' }}>
                   Диагностика — бесплатно
                 </h3>
-                <p className="text-[#4A4540] text-sm mb-6 leading-relaxed">
+                <p className="text-[#4A4540] text-sm mb-5 leading-relaxed">
                   Стоимость назовём до начала работ. Без скрытых доплат.
                 </p>
+
+                {/* Price highlight inside sidebar */}
+                <div className="bg-[#FFF9F2] rounded-xl p-4 mb-5 border border-[rgba(232,119,34,0.12)]">
+                  <p className="text-[#8B847C] text-xs mb-0.5">Стоимость от</p>
+                  <p className="text-[#E87722] text-3xl font-bold tabular">
+                    {service.priceFrom === 0 ? 'Бесплатно' : formatPrice(service.priceFrom)}
+                  </p>
+                </div>
+
                 <div className="space-y-3 mb-6">
                   <a href="tel:+78121234567" className="btn-primary w-full text-sm">
                     <Phone size={15} /> +7 (812) 123-45-67
@@ -248,14 +259,14 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {service.brands.map((brand) => (
-                    <span key={brand} className="px-3 py-1.5 bg-[#F7F5F2] rounded-lg text-sm text-[#4A4540] font-medium">
+                    <span key={brand} className="px-3 py-1.5 bg-[#F7F5F2] rounded-lg text-sm text-[#4A4540] font-medium hover:bg-[#FFF4EB] hover:text-[#E87722] transition-colors cursor-default">
                       {brand}
                     </span>
                   ))}
                 </div>
               </div>
 
-              {/* Trust badges */}
+              {/* Trust badge */}
               <div className="bg-[#1A1410] rounded-2xl p-7 text-white">
                 <Wrench size={28} className="text-[#E87722] mb-4" />
                 <p className="font-semibold mb-3" style={{ fontFamily: 'var(--font-display)' }}>
