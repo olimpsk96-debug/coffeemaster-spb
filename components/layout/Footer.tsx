@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import {
   Phone,
@@ -10,6 +12,7 @@ import {
   CreditCard,
   Banknote,
   Building2,
+  ChevronUp,
 } from 'lucide-react'
 
 const services = [
@@ -37,9 +40,28 @@ const payments = [
 ]
 
 export function Footer() {
+  const handleBackToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
-    <footer className="bg-[#1A1410] text-[#A8A29A]">
-      <div className="container py-16 lg:py-20">
+    <footer className="bg-[#1A1410] text-[#A8A29A] relative">
+      {/* Gradient border-top */}
+      <div
+        className="h-[2px] w-full"
+        style={{ background: 'linear-gradient(90deg, #E87722, #C9A96E)' }}
+      />
+
+      <div className="container py-16 lg:py-20 relative">
+        {/* Back to top — правый нижний угол */}
+        <button
+          onClick={handleBackToTop}
+          className="absolute right-8 bottom-8 w-10 h-10 bg-[#E87722] text-white rounded-full flex items-center justify-center hover:bg-[#D26210] hover:-translate-y-1 transition-all shadow-lg"
+          aria-label="Наверх"
+        >
+          <ChevronUp size={20} />
+        </button>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
@@ -68,7 +90,7 @@ export function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#A8A29A] hover:bg-[#E87722] hover:border-[#E87722] hover:text-white transition-all"
+                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#A8A29A] hover:bg-[#E87722] hover:border-[#E87722] hover:text-white hover:scale-110 transition-all duration-300"
                 >
                   <s.Icon size={16} />
                 </a>
@@ -97,8 +119,12 @@ export function Footer() {
             <ul className="space-y-3">
               {services.map((s) => (
                 <li key={s.href}>
-                  <Link href={s.href} className="text-sm hover:text-[#E87722] transition-colors">
+                  <Link
+                    href={s.href}
+                    className="text-sm relative inline-block hover:text-[#E87722] transition-colors duration-300 group"
+                  >
                     {s.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
                   </Link>
                 </li>
               ))}
@@ -111,14 +137,22 @@ export function Footer() {
             <ul className="space-y-3">
               {company.map((c) => (
                 <li key={c.href}>
-                  <Link href={c.href} className="text-sm hover:text-[#E87722] transition-colors">
+                  <Link
+                    href={c.href}
+                    className="text-sm relative inline-block hover:text-[#E87722] transition-colors duration-300 group"
+                  >
                     {c.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/brendy" className="text-sm text-[#E87722] hover:text-[#FF8E3C] transition-colors font-medium">
+                <Link
+                  href="/brendy"
+                  className="text-sm text-[#E87722] hover:text-[#FF8E3C] transition-colors font-medium relative inline-block group"
+                >
                   Все бренды →
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-[#FF8E3C] group-hover:w-full transition-all duration-300" />
                 </Link>
               </li>
             </ul>
@@ -131,11 +165,13 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <Phone size={15} className="text-[#E87722] mt-1 shrink-0" />
                 <div>
-                  <a href="tel:+78121234567" className="text-sm text-white hover:text-[#E87722] transition-colors block font-semibold">
+                  <a href="tel:+78121234567" className="text-sm text-white hover:text-[#E87722] transition-colors block font-semibold relative inline-block group">
                     +7 (812) 123-45-67
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
                   </a>
-                  <a href="tel:+79991234567" className="text-sm hover:text-[#E87722] transition-colors block mt-1">
+                  <a href="tel:+79991234567" className="text-sm hover:text-[#E87722] transition-colors block mt-1 relative inline-block group">
                     +7 (999) 123-45-67
+                    <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
                   </a>
                 </div>
               </li>
@@ -143,24 +179,27 @@ export function Footer() {
                 <Send size={15} className="text-[#E87722] mt-1 shrink-0" />
                 <a
                   href="https://t.me/coffeemaster_spb"
-                  className="text-sm hover:text-[#E87722] transition-colors"
+                  className="text-sm hover:text-[#E87722] transition-colors relative inline-block group"
                 >
                   Telegram: @coffeemaster_spb
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <MessageCircle size={15} className="text-[#E87722] mt-1 shrink-0" />
                 <a
                   href="https://wa.me/79991234567"
-                  className="text-sm hover:text-[#E87722] transition-colors"
+                  className="text-sm hover:text-[#E87722] transition-colors relative inline-block group"
                 >
                   WhatsApp: +7 (999) 123-45-67
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <Mail size={15} className="text-[#E87722] mt-1 shrink-0" />
-                <a href="mailto:info@coffeemaster.spb.ru" className="text-sm hover:text-[#E87722] transition-colors">
+                <a href="mailto:info@coffeemaster.spb.ru" className="text-sm hover:text-[#E87722] transition-colors relative inline-block group">
                   info@coffeemaster.spb.ru
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
                 </a>
               </li>
               <li className="flex items-start gap-3">
@@ -199,24 +238,27 @@ export function Footer() {
               Юридическая информация
             </p>
             <div className="flex flex-wrap gap-x-5 gap-y-2 md:justify-end">
-              <Link href="/oferta" className="text-[13px] hover:text-[#E87722] transition-colors">
-                Оферта
-              </Link>
-              <Link href="/privacy" className="text-[13px] hover:text-[#E87722] transition-colors">
-                Политика конфиденциальности
-              </Link>
-              <Link href="/garantiya" className="text-[13px] hover:text-[#E87722] transition-colors">
-                Гарантия
-              </Link>
-              <Link href="/sertifikaty" className="text-[13px] hover:text-[#E87722] transition-colors">
-                Сертификаты
-              </Link>
+              {[
+                { href: '/oferta', label: 'Оферта' },
+                { href: '/privacy', label: 'Политика конфиденциальности' },
+                { href: '/garantiya', label: 'Гарантия' },
+                { href: '/sertifikaty', label: 'Сертификаты' },
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-[13px] hover:text-[#E87722] transition-colors relative inline-block group"
+                >
+                  {link.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-[#E87722] group-hover:w-full transition-all duration-300" />
+                </Link>
+              ))}
             </div>
           </div>
         </div>
 
         <div className="h-px bg-white/10 mb-8" />
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pb-4">
           <p className="text-[12px] text-[#666]">
             © 2015–2026 CoffeeMaster. Все права защищены.
           </p>

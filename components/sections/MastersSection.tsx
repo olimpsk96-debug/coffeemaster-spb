@@ -50,7 +50,7 @@ export function MastersSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white">
+    <section ref={ref} className="py-28 lg:py-40 bg-white">
       <div className="container">
         <motion.div
           initial="hidden"
