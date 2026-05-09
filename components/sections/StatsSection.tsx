@@ -57,7 +57,7 @@ export function StatsSection() {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="py-16 lg:py-20 bg-[#1A1410] relative overflow-hidden">
+    <section ref={ref} className="py-24 lg:py-32 bg-[#1A1410] relative overflow-hidden">
       {/* Subtle grid texture */}
       <div className="absolute inset-0 bg-grid opacity-[0.04]" />
 

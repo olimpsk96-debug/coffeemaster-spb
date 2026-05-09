@@ -111,13 +111,13 @@ export function ServicesSection() {
   }
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-[#F7F5F2]">
+    <section ref={ref} className="py-28 lg:py-40 bg-[#F7F5F2]">
       <div className="container">
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
+          className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8"
         >
           <div className="max-w-2xl">
             <motion.span variants={fadeUpVariants} className="section-label mb-5">

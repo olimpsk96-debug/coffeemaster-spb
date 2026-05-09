@@ -105,7 +105,7 @@ export function BrandsMarquee() {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="py-16 bg-white overflow-hidden">
+    <section ref={ref} className="py-24 lg:py-32 bg-white overflow-hidden">
       <div className="container mb-10">
         {/* Brand counter */}
         <motion.div

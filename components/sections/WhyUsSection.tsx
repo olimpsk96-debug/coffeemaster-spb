@@ -92,13 +92,13 @@ export function WhyUsSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white">
+    <section ref={ref} className="py-28 lg:py-40 bg-white">
       <div className="container">
         <motion.div
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
           variants={containerVariants}
-          className="text-center mb-16 max-w-3xl mx-auto"
+          className="text-center mb-20 max-w-3xl mx-auto"
         >
           <motion.span variants={fadeUpVariants} className="section-label mb-5">
             Почему выбирают нас

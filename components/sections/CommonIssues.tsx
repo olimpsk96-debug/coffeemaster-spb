@@ -31,7 +31,7 @@ export function CommonIssues({ onOpenForm }: Props) {
   }))
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-[#F7F5F2]">
+    <section ref={ref} className="py-28 lg:py-40 bg-[#F7F5F2]">
       <FAQJsonLd faq={faqData} />
       <div className="container">
         <motion.div initial="hidden" animate={isInView ? 'visible' : 'hidden'} variants={containerVariants}>

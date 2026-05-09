@@ -14,7 +14,7 @@ export function CTASection({ onOpenForm }: CTASectionProps) {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-white">
+    <section ref={ref} className="py-28 lg:py-40 bg-white">
       <style>{`
         @keyframes gradient-shift {
           0% { background-position: 0% 50%; }

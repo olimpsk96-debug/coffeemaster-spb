@@ -157,7 +157,7 @@ export function TestimonialsSection() {
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section ref={ref} className="py-20 lg:py-28 bg-[#F7F5F2] overflow-hidden">
+    <section ref={ref} className="py-28 lg:py-40 bg-[#F7F5F2] overflow-hidden">
       <ReviewJsonLd reviews={testimonials.map(t => ({ author: t.author, rating: t.rating, text: t.text, date: '2026-01-01' }))} />
 
       <div className="container mb-12">

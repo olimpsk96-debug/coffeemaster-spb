@@ -79,7 +79,7 @@ export function CalculatorSection({ onOpenForm }: Props) {
   return (
     <section
       ref={ref}
-      className="py-20 lg:py-28 bg-gradient-to-br from-[#FFF9F2] to-white"
+      className="py-28 lg:py-40 bg-gradient-to-br from-[#FFF9F2] to-white"
     >
       <style>{`
         @keyframes pulse-ring {
